@@ -145,7 +145,9 @@ module RackDAV
         names = resource.property_names
       else
         names = request_match("/propfind/prop/*").map { |e| e.name }
-        raise BadRequest if names.empty?
+        # whitmer: I changed this line to allow compatibility with the Windows WebDAV client
+        names = resource.property_names if names.empty?
+        # raise BadRequest if names.empty?
       end
 
       multistatus do |xml|
